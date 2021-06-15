@@ -2,6 +2,13 @@
 import { app, BrowserWindow } from "electron";
 import path from "path";
 
+const getAlwaysOnTopParamter = (platform: string): "normal" | "floating" => {
+  if (platform === "darwin") {
+    return "floating";
+  }
+  return "normal";
+};
+
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -20,7 +27,7 @@ function createWindow() {
   // mainWindow.webContents.openDevTools();
 
   mainWindow.removeMenu();
-  mainWindow.setAlwaysOnTop(true, "normal");
+  mainWindow.setAlwaysOnTop(true, getAlwaysOnTopParamter(process.platform));
   mainWindow.setOpacity(0.4);
 }
 
