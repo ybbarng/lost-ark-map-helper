@@ -44,7 +44,7 @@ const createWindow = (): void => {
 
   mainWindow.removeMenu();
   mainWindow.setAlwaysOnTop(false, getAlwaysOnTopLevel(process.platform));
-  mainWindow.setOpacity(0.4);
+  mainWindow.setOpacity(0.9);
 
   const setAlwaysOnTop = (alwaysOnTop: boolean) => {
     const level = alwaysOnTop
@@ -53,11 +53,15 @@ const createWindow = (): void => {
     mainWindow.setAlwaysOnTop(alwaysOnTop, level);
   };
 
+  const setOpacity = (opacity: number) => {
+    mainWindow.setOpacity(opacity / 100);
+  };
+
   const ipcHandler = (event: IpcMainEvent, ipcRequest: IpcRequest) => {
-    console.log("ipcHandler()");
     if (ipcRequest.method == "alwaysOnTop") {
-      console.log("IPC: alwaysOnTop: " + ipcRequest.params.alwaysOnTop);
       setAlwaysOnTop(ipcRequest.params.alwaysOnTop);
+    } else if (ipcRequest.method == "opacity") {
+      setOpacity(ipcRequest.params.opacity);
     }
   };
 

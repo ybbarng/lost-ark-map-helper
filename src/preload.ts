@@ -11,4 +11,13 @@ contextBridge.exposeInMainWorld("electron", {
     };
     ipcRenderer.send("asynchronous-message", request);
   },
+  setOpacity: (opacity: number) => {
+    const request: IpcRequest = {
+      method: "opacity",
+      params: {
+        opacity,
+      },
+    };
+    ipcRenderer.send("asynchronous-message", request);
+  },
 });
