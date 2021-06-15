@@ -2,29 +2,20 @@
   "name": "lost-ark-map-helper",
   "version": "0.0.1",
   "description": "A helper app which overlay on the map of Lost Ark",
-  "main": "build/index.js",
+  "main": ".webpack/main",
   "scripts": {
-    "start": "npm run compile && electron-forge start",
-    "compile": "tsc && copyfiles -f index.html build",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron-forge start",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "eslint --ext .ts ."
   },
-  "author": "ybbarng@gmail.com",
-  "license": "ISC",
-  "devDependencies": {
-    "@electron-forge/cli": "^6.0.0-beta.57",
-    "@electron-forge/maker-deb": "^6.0.0-beta.57",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.57",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.57",
-    "@electron-forge/maker-zip": "^6.0.0-beta.57",
-    "copyfiles": "^2.4.1",
-    "electron": "^13.1.2",
-    "typescript": "^4.3.2"
+  "keywords": [],
+  "author": {
+    "name": "ybbarng",
+    "email": "ybbarng@gmail.com"
   },
-  "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
-  },
+  "license": "MIT",
   "config": {
     "forge": {
       "packagerConfig": {},
@@ -32,7 +23,7 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "lostark_map_helper"
+            "name": "my_new_app"
           }
         },
         {
@@ -49,7 +40,48 @@
           "name": "@electron-forge/maker-rpm",
           "config": {}
         }
+      ],
+      "plugins": [
+        [
+          "@electron-forge/plugin-webpack",
+          {
+            "mainConfig": "./webpack.main.config.js",
+            "renderer": {
+              "config": "./webpack.renderer.config.js",
+              "entryPoints": [
+                {
+                  "html": "./src/index.html",
+                  "js": "./src/renderer.ts",
+                  "name": "main_window"
+                }
+              ]
+            }
+          }
+        ]
       ]
     }
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.57",
+    "@electron-forge/maker-deb": "^6.0.0-beta.57",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.57",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.57",
+    "@electron-forge/maker-zip": "^6.0.0-beta.57",
+    "@electron-forge/plugin-webpack": "^6.0.0-beta.57",
+    "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
+    "@typescript-eslint/eslint-plugin": "^4.27.0",
+    "@typescript-eslint/parser": "^4.27.0",
+    "css-loader": "^5.2.6",
+    "electron": "13.1.2",
+    "eslint": "^7.28.0",
+    "eslint-plugin-import": "^2.23.4",
+    "fork-ts-checker-webpack-plugin": "^6.2.10",
+    "node-loader": "^2.0.0",
+    "style-loader": "^2.0.0",
+    "ts-loader": "^9.2.3",
+    "typescript": "^4.3.2"
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.0"
   }
 }
